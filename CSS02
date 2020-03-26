@@ -66,3 +66,14 @@
   - letter-spacing :낱개 글자의 간격을 조정하는 속성
   - line-spacing : 단어와 단어 사이 간격을 조정하는 속성
   
+list-style-type
+- 목록의 기호의 스타일을 지정하는 속성
+
+list-style-image
+- 기호 대신 이미지 삽입
+
+list-style-position
+- 목록 기호 들여쓰기
+
+list-style
+- 목록 스타일을 한번에 지정하는 속성
