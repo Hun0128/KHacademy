@@ -1,7 +1,22 @@
 https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=justify
 
 문단스타일
+  
+  - direction
+    - 글자 쓰기 방향 지정 속성
+  - text-align
+    - 문자위치를 조정(정렬)하는 속성
   - text-indent
+    - 문장을 들여쓰기 하는 속성
+  - line-height
     - 문장끼리의 줄 간격을 조정하는 속성
   - text-overflow
-    - 
+    - 영역을 벗어나는 텍스트 표시 속성 
+  - list-style-type
+    - 목록의 기호의 스타일을 지정하는 속성
+  - list-style-image
+    - 기호 대신 이미지 삽입
+  - list-style-position
+    - 목록 기호 들여쓰기
+  - list-style
+    - 목록 스타일을 한번에 지정하는 속성
