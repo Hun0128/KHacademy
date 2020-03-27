@@ -20,3 +20,43 @@ https://www.w3schools.com/cssref/playit.asp?filename=playcss_text-align&preval=j
     - 목록 기호 들여쓰기
   - list-style
     - 목록 스타일을 한번에 지정하는 속성
+
+
+레이아웃
+  - 기본스타일
+    - 블록요소
+      - 한줄 전체를 차지하는 요소로 한줄에 여러가지 요소가 올수 없음
+      - 기본적으로 가로폭 전체의 넓이를 가지는 직사각형 형태를 형성
+      
+   -display
+    - 화면 배치 방법 변경 속성
+    - 블록 요소와 인라인 요소를 변경가능(블록 -> 인라인,인라인->블록)
+    
+  - 테두리 스타일
+    - border-style
+      - 테두리 스타일 지정(테두리에 사용할 선의 종류)
+    - border-color
+      -테두리의 색상을 정하는 속성
+    - border-width
+      - 테두리의 두께를 정하는 속성
+      
+   - 포지셔닝
+    - position
+      - 페이지의 요소들을 자유롭게 배치해 주는 속성
+      -top,left,right,bottom으로 위치 지정
+        - static :요소를 문서의 흐름에 맞춰 배치(default)
+        - relative : 이전 요소와 자연스럽게 연결해 배치, 위치 지정 가능
+        - absolute : 원하는위치를 지정해 배치
+         -> 부모/조상 요소의 position 속성이 반드시 relative
+         -> 가까운 relative 속성인 부모나 조상 요소가 기준좀
+        - fixed 지정한 위치에 고정 
+    - visibility
+      - 페이지에 특정 속성을 보이거나 보이지 않게 하는 속성.
+        - visible :요소가 화면에 보임(default)
+        - hidden : 
+
+애니메이션
+  - 애니메이션
+    - 애니메이션은 속성을 점차적으로 변화시켜 움직이는 효과를 내는 기법
+  - transform 속성
+    - 페이지에서 요소들을 변경시키려면 transform 속성과 변형 함수를 이용.
