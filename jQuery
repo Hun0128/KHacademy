@@ -1,0 +1,65 @@
+jQuery
+  - 존레식에 의해 개발된 경랑 javascript 라이브러리
+  - Write Less Do More(보다 간단히 많은 것을)을 모토로 복잡했던 코드를 손쉽게 구현
+  - DOM과 관련된 처리 쉽게 구현
+  - 일관된 이벤트 연결 쉽게 구현
+  - 시각적 효과 쉽게 구현
+  - Ajax 애플리케이션 쉽게 개발
+  - 애니메이션 기능,Ajax통신,이벤트 처리 등 폭 넓게 지원
+  - jquery 플러그인을 통해 차트 작성, 슬라이드쇼, 엑셀같은 테이블도 간단한 코드로 구현 가능.
+  
+ jQuery연결
+  - CDN(Content Delivery Network)을 통한 연결
+   ->온라인으로 js파일을 불러와서 실행
+  - 파일 다운로드 연결(오프라인에서 사용)
+   ->jQuery 홈페이지에서 js파일 다운로드
+  
+  - $(선택자).메소드명(속성,값);이 가장 기본적인 형태
+   ->$("p").css('color','red')->p태그의 글씨색을 red로 변경
+  - $는 jQuery를 선언하거나 접근할떄 사용하며, 같은 표현으로는 jQuer가 존재
+   ->$(선택자)
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+ jQuery 사용
+   
+   
+   *:모든 DOM엘리먼트
+        h,p:태그 선택자
+        #:ID 선택자
+        .:class선택자
+        tag,#:멀티 선택자
+        a>b:자손선택자
+        a b:후손 선택자
+
+        [name=id]:속성 선택자 
+
+        입력양식 선택자 :
+        input:boutton
+        input:text
+        innerHTML->html();
+        value->val();
+
+        상태 선택자
+        input:checked -input 태그중 체크된 객체
+        input:disabled - input 태그중 비활성화 된 객체
+        input:enabled - input 태그 중 활성된 객체
+        option:selected -select 태그의 option 태그 중 선택된객체
+
+        요소:eq(n) - n번째 위치하는 객체
+        요소:gt(n) - n번째를 초과하는 객체
+        요소:lt(n) - n번째 미만에 위치하는 객체
+        요소:nth-child(수식):수식에 위치하는 객체 선택
+        요소:not(선택자):선택자와 일치하지 않는 객체 
+        
+jQuery Traversing
+  filterring메소드
+    - 선택자로 지정한 객체를 기준으로 객체 그룹에서 위치를 기준으로 객체를 선택하는 메소드.
+  Ancestors메소드
+    - 선택된 요소의 상위 요소들을 선택할 수 있는 메소드
+    $('선택자').parent() : 선택된 요소의 바로 위 상위 요소만 리턴
+  Descendants 메소드
+    - 선택된 요소의 하위 요소들을 선택할수 있는 메소드
+  Sideways 메소드
+    - 선택된 요소의 같은 레벨에 있는 요소(형제)를 선택할 수 있는 메소드
+  요소가 있는지 찾는 메소드
+    - 선택자로 지정된 범위에 특정한 요소가 존재하는지 찾을때 사용하는 메소드
+   
