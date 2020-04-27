@@ -1,0 +1,188 @@
+
+ 셋팅순서
+1. 현제 자바버전 확인
+2. 아파치-톰캣 서버 버전 별 지원 정보 확인
+3.아파치-톰캣 서버 다운로드
+4.아파치-톰캣 서버 설치
+5.이클립스 필요 항목 추가
+9.아파치 톰캣 서버 설정
+10.아파치 톰캣 서버 실행
+
+
+src 폴더와 WebContent폴더 확인
+
+WebContent ->Front-end(HTML,CSS,JS)
+
+Servlet
+ - server + Applet 의 합성어
+ - java언어를 이용하여 사용자의 요청을 받아 처리하고 그 결과를 다시 사용자에게 넘김.
+
+어노테이션 : @기능
+
+배포서술자(Deployment Descriptor)
+ -  어플리게이션에 대한 전체 설정정보를 가지고 있는 파일로 이정보를 가지고 웹 컨테이너가 서블릿으로 구동
+ - xml파일로 태그로 이루어져 있음.
+
+서블릿 매핑
+ - client가 servlet에 접글할 때 원본 클래스명이 아닌 다른 명칭으로 접근 시 사용 접근명과 클래스명을 매핑해주는것.
+ 
+ - web.xml 이용하는방법
+  - web.xml에 태그를 이용하여 매핑 정보를 등록
+server.xml
+ - WAS서버에 대한 설정을 변경할 수있는타입.
+
+서블릿 라프사이클
+ 1. 첫번쨰 요청인 경우 객체를 생성하며 init()메소드 호출.
+ (그이후 만들떄는 만들어져있는경우에는 객체를 따로 저장해뒀다가 불러와서 사용하여 속도감에 문제가없음.)
+ 2. 이후 작업이 실행 될 떄마다 HTTP Type에 따른 doGet(),doPost()메소드 호출
+ 3. 최종적으로 서블이 서비스 되지 않을 때 destroy() 메소드 호출.
+
+서블릿 생성
+
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
+		System.out.println("testservlet 호출완료");
+	}
+
+HTML 서버에서 서블릿 호출
+
+서버에서 수정이있을경우 무조건 자바 저장후 서버 재시작.
+
+get 호스트 뒤에 값을 붙여줌
+ex)http://192.168.35.138/test?test=%ED%99%94%EC%83%81%ED%9A%8C%EC%9D%98+%ED%9E%98%EB%93%9C%EB%84%A4
+%3f -> 인코딩을 해야 붙음. base64 방식
+
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		request.setCharacterEncoding("utf-8");
+		모든 값은 utf-8로 요청
+		String test = request.getParameter("test");
+		input 태그 mathod 타입을 받아서 거기에있는 값을 받음.
+		System.out.println(test);
+	}
+주의할점 : 입력받는 양식이 String 이므로 숫자를 써도 무조건 문자열로 받음.
+지금까지가 HTML에서 자바로 옮기는 작업.
+
+404에러 
+a태그 경로 확인
+
+500에러
+변수에 저장하는 값 확인
+메인속성이 맞는지 확인.
+
+사용자 데이터 전송방식
+ - get 방식
+	URL창"?"뒤에 ㅇ데이터를 입력하는 방법(쿼리스트링)으로 전송
+	전송할 때 데이터가 여러개인 경우 &를 이용하여 여러개 전송
+	데이터 검색에 많이 사용되며, 데이터 크기에 한계가 잇으며 보안에 취약
+ - post 방식
+	HTTP헤더의 내용으로 보내는 방식으로 데이터 크기에 제한이 없고 보안이 뛰어남
+ 
+※Servlet 이 두방식중 하나로 전달받으면 해당하는 메소드 호출
+※전송방식으로 따로 정하지 않으면 get방식으로 정립됨.
+
+doGet()
+ - client에서 데이터를 get방식으로 전송하게 되면 호출되는 메소드
+doPost()
+
+Servlet
+자바에 HTML코드가 들어가있는 모양
+JSP
+HTML에 자바코드 들어가있는 모양
+
+JSP
+
+ - 동적인 웹 페이지를 java언어를 이용하여 html,xml기반으로 작성할수 있는 기술
+ - Servlet은 수정시 재 컴파일(서버재시작)을 해야하지만 jsp는 동적으로 컴파일하기때문에 재시작 할필요없음.
+	화면 로직 처리에 적합.
+
+JSP Elements
+Commments tag <%--주석--%>
+Directve tag <%@지시자%> ex)import
+Declaration tag
+ - Servlet 클래스의 멤버 변수/메소드에 해당하는 코드를 작성할떄 사용
+Scriptlet tag
+ - _jspService 메소드의 로컬 변수와 코드를 작성할떄 사용
+Expressiong tag
+ 
+JSP 내장객체
+ - JSP에서 기본적으로 제공하는 객체들로 request,response,out 등 
+
+JSP내장객체의 영역(scope)
+application>session>request>page 순으로 작아짐
+
+session  - 로그인
+request - 주로 많이 사용.
+
+mvc1 의 구조
+HTML > JSP >Mdel(vo,dao,service)>JSP>HTML
+ - 작은 프로젝트에 용이.
+
+mvc2 구조
+ HTML > Servlet > Model >Servlet>JSP(화면구현)>HTML
+<%= -- 자바에있는값을 HTML화면에 출력하고 싶을떄 사용(세미콜론x)
+ 
+ Apache Tomcat
+
+사용자 요청을 받는 클래스 
+>Servlet
+>비지니스 로직처리
+>HTML페이지 제작,out.println("<html><head><title>")
+
+JSP
+사용자 요청을 JSP가 받아서 비지니스로직처리
+>화면 구현
+
+MVC패턴 
+
+MVC2패턴
+사용자 요청 처리(비지니스로직)은 Servlet이 처리 화면 구현은 JSP
+<% if %><% for() %>
+
+Action Tag,El JSTL
+
+표준 액션 태그
+ - JSP페이지에서 바로 사용 가능.
+커스텀 액션태그
+ - 별도의 라이브러리 설치 필요
+ - 라이브러리 선언에 맞는 접두어가 붙음. 
+
+jsp:include
+ 
+jsp:forward
+ - 페이지 이동.
+jsp:useBean
+ - java class 를 참조하여 빈 객체를 생성하고 , setProperty와 getProperty
+ 
+ <jsp:include page:"/actionTag/header.jsp"/> -""표이후에 /가 들어가면 중간내용없이 가로를 닫는다는 뜻으로 인지.
+ 
+ <jsp:forward page ="/actionTag/dstForm.jsp"/> -페이지 이동하면 URL은 변하지않고 다른페이지를 불러옴.
+ 
+ EL
+  <%= %>
+ - EL(Expression Lanuage)
+  - JSP2.0버전에서 추가된것. <%= %>,out.println
+  - 표기법을 숙지하지않으면 자동완성이나 표기법으로 인해 사용하기 어려움.
+  - JSP 2.0 버전에서 추가된 것으로 <%= %>, out.print()와 같이 JSP에 쓰이는
+    JAVA코드를 간결하게 사용하는 방법으로, 화면에 표현하고자 하는 코드를
+    ${value}의 형식으로 표현하여 작성하는 것
+ JSTL
+  - JSP에서 사용하는 커스텀 태그로, 공통으로 사용하는 코드의 집합을 사용하기 쉽게 태그화 하여 표준으로 제공한것.
+  
+ 사용방식
+  - 라이브러리 등록
+  - 선언 <%@ taglib uri=http://java.sun.com/jsp/jstl/core” prefiex=“c” %>
+  - 사용 <c:out value=“${welcome}”/>
+  
+ JSTL 태그 종류
+  - 
+  
+ JSTL Core Tags
+ <c:set>사용법
+  - 변수 타입을 별도로 선언하지 않음
+  - 초기값을 반드시 입력
+  - <c:set>으로 선언한 변수는 EL식 안에서 사용가능
+  - 
