@@ -1,0 +1,130 @@
+1.pom.xml 에 추가
+  <!-- websoket -->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-websocket</artifactId>
+        <version>${org.springframework-version}</version>
+      </dependency> 
+2.common 패키지안에 class 생성후 @Component("myHandeler") , 클래스에 extends TextWebSocketHandler 추가
+3.클레스에 추가 
+  @Component("myHandeler")
+  public class MyHandler extends TextWebSocketHandler{
+	private ArrayList<WebSocketSession> members;
+	private HashMap<String, WebSocketSession>map;
+	public MyHandler() {
+		members = new ArrayList<WebSocketSession>();
+		//map : 아이디 저장
+		map = new HashMap<String, WebSocketSession>();
+	}
+	//소켓이 생성되어 연결되었을때 실행되는 메소드
+	@Override
+	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		System.out.println("연결성공");
+		members.add(session);//접속한사람의 정보를 members에 저장.
+	}
+	//메세지를 수신하면 동작하는 메소드 , 실제 로직이 들어있는 메소드
+	@Override
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		System.out.println(message.getPayload());
+		//소켓으로 받은 메세지를 json타입으로 변경하여 사용
+		JsonParser parser = new JsonParser();
+		JsonElement element = parser.parse(message.getPayload());
+		String type = element.getAsJsonObject().get("type").getAsString();
+		if(type.equals("register")) {
+			//웹소켓에 접속시 map 에 memberid 추가
+			String memberId = element.getAsJsonObject().get("memberId").getAsString();
+			map.put(memberId, session);
+		}else {
+			String target = element.getAsJsonObject().get("target").getAsString();
+			String msg = element.getAsJsonObject().get("msg").getAsString();
+			WebSocketSession ws = map.get(target);
+			//해당 접속자가 접속해있는경우
+			if(ws!=null) {
+				ws.sendMessage(new TextMessage(msg));
+			}
+			
+		}
+	}
+	//연결이 끊기면 동작하는 메소드.
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		System.out.println("연결 종료");
+		members.remove(session);
+	}
+}
+  
+  applicationContext.xml namespace에서 websockey 체크후 에 추가
+  <!-- Websocket 설정 -->
+<websocket:handlers>
+	<websocket:mapping handler="myHandler" path="/chat.do"/>
+	<websocket:handshake-interceptors>
+		<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"></bean>
+	</websocket:handshake-interceptors>
+</websocket:handlers>
+
+chat.jsp 생성후
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js">
+	
+</script>
+</head>
+<body>
+	<textarea rows="5" cols="30" id="msgArea"></textarea>
+	<br>
+	메세지 : <input type="text" id="chatMsg"><br>
+	상대 아이디 : <input type="text" id="target"><br>
+	<button id="sendBtn">전송</button>
+	<script>
+		var ws;
+		var memberId = '${sessionScope.member.memberId}';
+		function connect() {
+			ws = new WebSocket("ws://192.168.10.20/chat.do");
+			ws.onopen = function(){
+				console.log("웹소켓 연결 생성")
+				var msg = {
+					type : "register",
+					memberId :memberId,
+				}; 
+				//handleTextMessage 로 호출
+				ws.send(JSON.stringify(msg))
+			};
+			//매개변수 e 에 값이 전송되어있음.
+			ws.onmessage = function(e){
+				//소켓이 나에게 보내준 메세지
+				var msg = e.data;
+				var chat = $("#msgArea").val()+"\n상대방:"+msg;
+				$("#msgArea").val(chat);
+			};
+			ws.onclos = function(){
+				console.log("연결종료")
+			};
+		}
+		$(function(){
+			connect();
+			$("#sendBtn").click(function(){
+				//내가 보낼 메세지 값 생성
+				var chat = $("#chatMsg").val();
+				//채팅창에 내 메세지값을 개행하여 저장
+				var msg = $("#msgArea").val()+"\n나:"+chat;
+				//채팅창에 내 메세지값을 개행하여 저장한 값을 보냄
+				$("#msgArea").val(msg);
+				//전송후 메세지 텍스값을 비움
+				$("#chatMsg").val("");
+				var sendMsg={
+						type:"chat",
+						target : $("#target").val(),
+						msg : chat
+				};
+				//sendMsg 값을 다시담아 전송
+				ws.send(JSON.stringify(sendMsg));
+			});
+		});
+	</script>
+</body>
+</html>
